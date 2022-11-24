@@ -8,7 +8,7 @@ fn main()
 
     let connection = &mut establish_connection();
     let results = trade
-        .filter(source.like("Vendor"))
+        .filter(owner.like("me"))
         .limit(5)
         .load::<Trade>(connection)
         .expect("error loading trades");

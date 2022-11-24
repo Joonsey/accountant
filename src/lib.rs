@@ -17,6 +17,7 @@ pub fn establish_connection() -> PgConnection {
 
 pub fn create_trade(
     conn: &mut PgConnection,
+    owner : &str,
     itemstring : &str,
     itemname  : &str,
     stacksize : &i32,
@@ -29,6 +30,7 @@ pub fn create_trade(
     use crate::schema::trade;
 
     let new_trade = NewTrade {
+        owner,
         itemstring,
         itemname,
         stacksize,

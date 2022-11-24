@@ -3,15 +3,15 @@
 diesel::table! {
     trade (id) {
         id -> Int4,
-        owner -> Nullable<Varchar>,
-        itemstring -> Nullable<Varchar>,
-        itemname -> Nullable<Varchar>,
-        stacksize -> Nullable<Int4>,
-        quantity -> Nullable<Int4>,
-        price -> Nullable<Int4>,
-        otherplayer -> Nullable<Varchar>,
-        player -> Nullable<Varchar>,
-        time -> Nullable<Int4>,
-        source -> Nullable<Varchar>,
+        owner -> Varchar,
+        itemstring -> Varchar,
+        itemname -> Varchar,
+        stacksize -> Int4,
+        quantity -> Int4,
+        price -> Int4,
+        otherplayer -> Varchar,
+        player -> Varchar,
+        time -> Int4,
+        source -> Varchar,
     }
 }

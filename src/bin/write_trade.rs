@@ -9,17 +9,19 @@ fn main()
 
     println!("Enter item");
     stdin().read_line(&mut itemname).unwrap();
+    let owner = "me";
     let itemstring = "";
     let itemname = itemname.trim_end();
-    let stacksize: i64 = 1;
-    let quantity: i64 = 1;
-    let price: i64  = 1;
+    let stacksize: i32 = 1;
+    let quantity: i32 = 1;
+    let price: i32  = 1;
     let otherplayer = "Generous beneficiairy";
     let player = "";
-    let time: i64 = 1;
+    let time: i32 = 1;
     let source = "";
     let post = create_trade(
         connection,
+        &owner,
         &itemstring,
         &itemname,
         &stacksize,

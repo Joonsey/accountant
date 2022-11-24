@@ -19,6 +19,7 @@ pub struct Trade {
 #[derive(Insertable)]
 #[diesel(table_name = trade)]
 pub struct NewTrade<'a> {
+    pub owner : &'a str,
     pub itemstring : &'a str,
     pub itemname  : &'a str,
     pub stacksize : &'a i32,
