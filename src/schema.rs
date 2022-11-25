@@ -15,3 +15,16 @@ diesel::table! {
         source -> Varchar,
     }
 }
+
+diesel::table! {
+    users (id) {
+        id -> Int4,
+        name -> Varchar,
+        password -> Nullable<Varchar>,
+    }
+}
+
+diesel::allow_tables_to_appear_in_same_query!(
+    trade,
+    users,
+);

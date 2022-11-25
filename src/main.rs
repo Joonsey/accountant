@@ -2,17 +2,17 @@
 use diesel::prelude::*;
 use accountant::*;
 use crate::trade_adapter::*;
-use self::models::Trade;
+use self::models::{Trade, Users};
 
 #[get("/")]
 fn index() -> &'static str {
     "Hello, world!"
 }
 
-#[get("/get/<rid>")]
-fn trades_get_specific(rid: i32) -> rocket::serde::json::Json<Trade>
+#[get("/get/<id>")]
+fn trades_get_specific(id: i32) -> rocket::serde::json::Json<Trade>
 {
-    trade_get_by_id(rid)
+    trade_get_by_id(id)
 }
 
 #[get("/get")]
@@ -30,7 +30,7 @@ fn trades_get() -> rocket::serde::json::Json<Vec<Trade>>
 #[post("/make", format="json", data = "<trade>")]
 fn trades_make(trade: rocket::serde::json::Json<Trade>) -> String {
 
-    let connection = &mut establish_connection();
+    /*let connection = &mut establish_connection();
     let result: Trade = create_trade(
         connection,
         &trade.owner,
@@ -44,8 +44,28 @@ fn trades_make(trade: rocket::serde::json::Json<Trade>) -> String {
         &trade.time,
         &trade.source);
     format!("{}", result.id)
+    */
+    trade_add(trade);
+    format!("{}", "ok!")
 }
 
+#[post("/make", format="json", data = "<user>")]
+pub fn users_make(user: rocket::serde::json::Json<Users>)
+{
+    panic!("Not yet implemented")
+}
+
+#[get("/get/<id>")]
+pub fn users_get_specific(id: i32)-> rocket::serde::json::Json<Users>
+{
+    user_adapter::user_get_by_id(id)
+}
+
+#[get("/<name>")]
+pub fn users_get_specific_from_name(name: String)-> rocket::serde::json::Json<Users>
+{
+    user_adapter::user_get_by_name(name)
+}
 
 #[launch]
 fn rocket() -> _ {
@@ -54,4 +74,7 @@ fn rocket() -> _ {
     .mount("/trades", routes![trades_make])
     .mount("/trades", routes![trades_get])
     .mount("/trades", routes![trades_get_specific])
+    .mount("/users", routes![users_make])
+    .mount("/users", routes![users_get_specific])
+    .mount("/users", routes![users_get_specific_from_name])
 }
