@@ -28,7 +28,6 @@ pub fn create_trade(
     time: &i32,
     source: &str) -> Trade {
     use crate::schema::trade;
-
     let new_trade = NewTrade {
         owner,
         itemstring,
@@ -41,9 +40,39 @@ pub fn create_trade(
         time,
         source
     };
-
     diesel::insert_into(trade::table)
         .values(&new_trade)
         .get_result(conn)
         .expect("Error saving new post")
+}
+
+// the boring part is over
+
+pub mod trade_adapter
+{
+    use diesel::prelude::*;
+    use crate::Trade;
+    use crate::schema::trade::id;
+    use crate::schema::trade::dsl::trade;
+    use crate::schema::trade::owner;
+
+    pub fn trade_get_by_id(value : i32) -> rocket::serde::json::Json<Trade>
+    {
+        let connection = &mut crate::establish_connection();
+        let results: Trade = trade
+            .filter(id.eq(value))
+            .first::<Trade>(connection)
+            .expect("error loading trade");
+        rocket::serde::json::Json(results)
+    }
+
+    pub fn trades_get_by_owner(value : String) -> rocket::serde::json::Json<Vec<Trade>>
+    {
+        let connection = &mut crate::establish_connection();
+        let results: Vec<Trade> = trade
+            .filter(owner.eq(value))
+            .load::<Trade>(connection)
+            .expect("error loading trade");
+        rocket::serde::json::Json(results)
+    }
 }

@@ -2,7 +2,7 @@ use diesel::prelude::*;
 use crate::schema::trade;
 use::serde::{Deserialize, Serialize};
 
-#[derive(Queryable, Serialize)]
+#[derive(Deserialize, Queryable, Serialize)]
 pub struct Trade {
     pub id: i32,
     pub owner: String,
